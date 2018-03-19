@@ -1,6 +1,8 @@
 var models = require('../models')
 var Sequelize = require('sequelize-oracle');
 var Config=require('../config/config');
+var path= require('path');
+var fs= require('fs');
 
 function saveProduct(req,res){
 	var params= req.body;
@@ -90,13 +92,13 @@ function changeStatusProduct(req,res){
 	models.Product.update( {Activo: status}, {where: {Id_prod:condicion}})
 		.then(function(){
 			models.Product.findOne({where:{Id_prod:condicion}})
-			.then(function(product){
-				if(product){
-					res.status(200).send(product)
-				}else{
-					res.status(404).send({message:"No existe el producto"})
-				}
-			})
+				.then(function(product){
+					if(product){
+						res.status(200).send(product)
+					}else{
+						res.status(404).send({message:"No existe el producto"})
+					}
+				})
 		})
 		.catch(function(error){
 			res.status(500).send({message:"Error: "+ error})
@@ -125,6 +127,50 @@ function addStock(req,res){
   		})
 }
 
+function uploadImage(req, res) {
+	var condicion = req.params.id;
+	var file_name = 'No subido...';
+
+	if (req.files){
+		var file_path = req.files.image.path;
+		var file_split = file_path.split('/');
+		var file_name = file_split[2];
+
+		var ext_split = file_name.split('.');
+		var file_ext = ext_split[1];
+
+		if (file_ext=='png'||file_ext=='jpg'|| file_ext=='gif'){
+
+			models.Product.update( {Str_img: file_name}, {where: {Id_prod:condicion}})
+				.then(function(){
+					models.Product.findOne({where:{Id_prod:condicion}})
+						.then(function(product){
+							if(product){
+								res.status(200).send(product)
+							}else{
+								res.status(404).send({message:"No existe el producto"})
+							}
+						})
+				})
+				.catch(function(error){
+					res.status(500).send({message:"Error: "+ error})
+				})
+		}
+	}
+}
+
+function getImageFile(req,res){
+	var imageFile= req.params.imageFile;
+	var path_file= './uploads/products/'+imageFile;
+	fs.exists(path_file, function(exists){
+		if(exists){
+			res.sendFile(path.resolve(path_file));
+		}else{
+			res.status(200).send({message: 'No existe la imagen...'});
+		}
+	});
+}
+
 module.exports={
 	getProduct,
 	saveProduct,
@@ -132,5 +178,7 @@ module.exports={
 	deleteProduct,
 	getProducts,
 	changeStatusProduct,
-	addStock
+	addStock,
+	uploadImage,
+	getImageFile
 }
