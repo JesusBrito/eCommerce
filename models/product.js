@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes)=>{
 	const Producto = sequelize.define('Productos',{
 		Id_prod:{
 			type: Sequelize.INTEGER,
-			primaryKey: true,
+			primaryKey: true
 		},
 		Nombre:{
 			type: DataTypes.STRING(30),
@@ -12,9 +12,6 @@ module.exports = (sequelize, DataTypes)=>{
 		},
 		Descripcion:{
 			type: Sequelize.STRING 
-		},
-		Id_categoria:{
-			type:Sequelize.STRING(4)  
 		},
 		Str_img:{
 			type:Sequelize.STRING  
@@ -25,11 +22,8 @@ module.exports = (sequelize, DataTypes)=>{
 		Stock:{
 			type:Sequelize.INTEGER
 		},
-		Activo:{
+		Estatus:{
 			type: Sequelize.STRING
-		},
-		Id_color:{
-			type:Sequelize.INTEGER	
 		},
 		Alto:{
 			type:Sequelize.FLOAT
