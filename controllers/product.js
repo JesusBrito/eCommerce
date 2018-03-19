@@ -1,63 +1,136 @@
-var dao= require('../dao')
-
-function getProducts(req,res) {
-
-	sql="SELECT * FROM Productos";
-	dao.open(sql,[],false,res);
-}
-
-function getProduct(req,res) {
-	var condicion = req.params.id;
-	sql="SELECT * FROM Productos WHERE Id_prod = :condicion";
-	dao.open(sql,[condicion],false,res);
-}
+var models = require('../models')
+var Sequelize = require('sequelize-oracle');
+var Config=require('../config/config');
 
 function saveProduct(req,res){
 	var params= req.body;
-	//INSERT INTO Productos VALUES('Bot1','Botiquin', 'Botiquin de tamaño mediano', 'Bot', 'asd', 120.5, 10, 'A', '2', 12, 15, 5);
-	sql= "INSERT INTO Productos(Id_prod , Nombre, Descripcion, Id_categoria, Str_img, "+
-							  " Precio, Stock, Activo, Id_color, Alto, Largo, Ancho) "+
-					 " VALUES(:id, :nombre, :descripcion, :categoria, :img, :precio, "+ 
-					 " :stock, :activo, :color, :alto, :largo, :ancho)";
-	
-	var id=params.id, nombre=params.nombre, descripcion=params.descripcion, 
-		categoria=params.categoria, img='', precio=params.precio, stock=params.stock, 
-		activo=params.activo, color=params.color, alto=params.alto, largo=params.largo,
-		ancho=params.nombre;
-
-	dao.open(sql,[id, nombre, descripcion, categoria, img, precio, stock, activo, color, 
-		alto, largo, ancho],true,res);
+	var product = models.Product.build(params)
+	product.save()
+		.then(function(product){
+			res.status(200).send(product)
+		})
+    	.catch(Sequelize.ValidationError, function(error) {
+			 console.log("Errores de validación:", error);
+			 for (var i in error.errors) {
+			 console.log('Error en el campo:', error.errors[i].value);
+			 };
+		})
+		.catch(function(error) {
+			res.status(500).send({message:"Error: "+error});
+		});
 }
 
-function updateProduct(req,res){
-	var params= req.body;
-	sql= "UPDATE prueba SET nombre = :nombre, telefono = :telefono"+
-					" WHERE telefono = :condicion";
-	var nombre=params.nombre;
-	var telefono=params.telefono;
-	var condicion=params.condicion;
-	dao.open(sql,[nombre,telefono,condicion],true,res);
+
+function getProducts(req,res) {
+	models.Product.findAll()
+		.then(function(products){
+			res.status(200).send(products)
+		})
+		.catch(function(error){
+			res.status(500).send({message:"Error: "+ error})
+		});
 }
+
+
+function getProduct(req,res) {
+	var condicion = req.params.id;
+	models.Product.findOne({where:{Id_prod:condicion}})
+		.then(function(product){
+			if(product){
+				res.status(200).send(product)
+			}else{
+				res.status(404).send({message:"No existe el producto"})
+			}
+		})
+		.catch(function(error){
+			res.status(500).send({message:"Error: "+ error})
+		});
+}
+
 
 function deleteProduct(req,res){
 	var params= req.body;
-	sql= "DELETE FROM Productos WHERE Id_prod = :condicion";
-	var condicion=params.condicion;
-	dao.open(sql,[condicion],true,res);
+	var condicion=params.Id_prod;
+	console.log(condicion);
+	models.Product.destroy({where:{Id_prod:condicion}})
+		.then(function(){
+				res.status(200).send({message:"Se eliminó el producto"})
+		})
+		.catch(function(error){
+			res.status(500).send({message: "Error: "+error})
+		})
 }
 
-function changeStatusProduct(req,res){
+
+function updateProduct(req,res){
 	var params= req.body;
-	sql= "UPDATE Productos SET activo = :status WHERE Id_prod = :condicion";
-	var status=params.status;
-	var condicion=params.condicion;
-	dao.open(sql,[status,condicion],true,res);
+	var condicion=params.Id_prod;
+	models.Product.update(params, {where:{Id_prod:condicion}})
+	.then(function(){
+		models.Product.findOne({where:{Id_prod:condicion}})
+			.then(function(product){
+				if(product){
+					res.status(200).send(product)
+				}else{
+					res.status(404).send({message:"No existe el producto"})
+				}
+			})
+		})
+		.catch(function(error){
+			res.status(500).send({message:"Error: "+ error})
+		})
 }
+
+
+function changeStatusProduct(req,res){
+	var params= req.params;
+	var status=params.status;
+	var condicion=params.id;
+	console.log(status+' '+condicion)
+	models.Product.update( {Activo: status}, {where: {Id_prod:condicion}})
+		.then(function(){
+			models.Product.findOne({where:{Id_prod:condicion}})
+			.then(function(product){
+				if(product){
+					res.status(200).send(product)
+				}else{
+					res.status(404).send({message:"No existe el producto"})
+				}
+			})
+		})
+		.catch(function(error){
+			res.status(500).send({message:"Error: "+ error})
+		})
+}
+
+function addStock(req,res){
+	var params= req.body;
+	var stockR=params.stock;
+	var condicion=params.Id_product;
+	
+	var sequelize = new Sequelize(
+		Config.db.database,
+		Config.db.user,
+		Config.db.password,
+		Config.db.options
+	)
+	sequelize
+  		.query(' CALL SPUPDATESTOCK(:id,:stock)', 
+        	{replacements: { id: condicion, stock: stockR}})
+  		.then(function(){
+  			res.status(200).send({message: "Se ha actualizado el stock"})
+  		})
+  		.catch(error=>{
+  			res.status(500).send({error})
+  		})
+}
+
 module.exports={
 	getProduct,
 	saveProduct,
 	updateProduct,
 	deleteProduct,
 	getProducts,
-	changeStatusProduct
+	changeStatusProduct,
+	addStock
 }

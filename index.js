@@ -1,5 +1,6 @@
 var app= require('./app');
-var port = process.env.PORT||8080;
+var Config=require('./config/config')
+var port = Config.port;
 
 
 app.listen(port, ()=>{
