@@ -3,7 +3,7 @@ var Sequelize=require('sequelize-oracle');
 module.exports = (sequelize, DataTypes)=>{
 	const Producto = sequelize.define('Productos',{
 		Id_prod:{
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING(30),
 			primaryKey: true
 		},
 		Nombre:{
@@ -11,10 +11,10 @@ module.exports = (sequelize, DataTypes)=>{
 			required: true
 		},
 		Descripcion:{
-			type: Sequelize.STRING 
+			type: Sequelize.STRING(100) 
 		},
 		Str_img:{
-			type:Sequelize.STRING  
+			type:Sequelize.STRING(50)  
 		},
 		Precio:{
 			type:Sequelize.FLOAT
@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes)=>{
 			type:Sequelize.INTEGER
 		},
 		Estatus:{
-			type: Sequelize.STRING
+			type: Sequelize.STRING(1)
 		},
 		Alto:{
 			type:Sequelize.FLOAT

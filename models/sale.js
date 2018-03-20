@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes)=>{
 			type: Sequelize.DATE
 		},
 		Estatus:{
-			type: Sequelize.STRING(9)
+			type: Sequelize.STRING(1)
 		},
 		No_Rastreo:{
 			type: Sequelize.STRING(50)

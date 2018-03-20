@@ -9,6 +9,7 @@ var sequelize = new Sequelize(
 	Config.db.password,
 	Config.db.options
 )
+
 //IMPORTACIÓN DE MODELOS
 var Product = sequelize.import(path.join(__dirname,'product'));
 var Client = sequelize.import(path.join(__dirname,'client'));
@@ -20,24 +21,33 @@ var Sale = sequelize.import(path.join(__dirname,'sale'));
 
 //RELACIONES
 Client.hasMany(Sale,{foreignKey:'RFC_FK'});
-Sale.belongsTo(Client,{as: 'Cliente', foreignKey:'RFC_FK'});
+Sale.belongsTo(Client,{as: 'Cliente', foreignKey:'RFC_FK'},{onDelete: 'cascade', hooks:true});
 
-Category.hasMany(Product,{foreignKey: 'Id_Categoria_FK'});
-Product.belongsTo(Category,{as:'Categoria', foreignKey: 'Id_Categoria_FK'});
+Product.belongsTo(Category);
+Category.hasMany(Product);
+//Product.belongsTo(Category,{as:'Categoria', foreignKey: 'Id_Categoria_FK'});
+//Category.hasMany(Product,{foreignKey: 'Id_Categoria_FK'});
 
-Color.hasMany(Product,{foreignKey: 'Id_Color_FK'});
-Product.belongsTo(Color,{as:'Color', foreignKey: 'Id_Color_FK'});
+Sale_Detail.belongsTo(Color);
+Color.hasMany(Sale_Detail);
+//Color.hasMany(Product,{foreignKey: 'Id_Color_FK'});
+//Product.belongsTo(Color,{as:'Color', foreignKey: 'Id_Color_FK'});
 
-Product.hasMany(Sale_Detail,{foreignKey: 'Id_Producto_FK'});
-Sale_Detail.belongsTo(Product,{as:'Product', foreignKey: 'Id_Producto_FK' });
+Sale_Detail.belongsTo(Product);
+Product.hasMany(Sale_Detail);
+//Product.hasMany(Sale_Detail,{foreignKey: 'Id_Producto_FK'});
+//Sale_Detail.belongsTo(Product,{as:'Product', foreignKey: 'Id_Producto_FK' });
 
-Sale.hasMany(Sale_Detail,{foreignKey: 'No_Venta_FK'});
-Sale_Detail.belongsTo(Sale, {as:'Sale', foreignKey: 'No_Venta_FK'});
+Sale_Detail.belongsTo(Sale);
+Sale.hasMany(Sale_Detail);
+//Sale.hasMany(Sale_Detail,{foreignKey: 'No_Venta_FK'});
+//Sale_Detail.belongsTo(Sale, {as:'Sale', foreignKey: 'No_Venta_FK'});
 
-sequelize.sync({force: true});
+//sequelize.sync({force: true});
 //sequelize.sync();
 exports.Product = Product;
 exports.Client = Client;
 exports.Sale = Sale;
 exports.Category = Category;
-exports.SequelizeCon= sequelize; 
+exports.Color = Color;
+exports.Sale_Detail = Sale_Detail;

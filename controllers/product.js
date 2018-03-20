@@ -24,7 +24,7 @@ function saveProduct(req,res){
 
 
 function getProducts(req,res) {
-	models.Product.findAll()
+	models.Product.findAll({include:[models.Category]})
 		.then(function(products){
 			res.status(200).send(products)
 		})
@@ -36,7 +36,7 @@ function getProducts(req,res) {
 
 function getProduct(req,res) {
 	var condicion = req.params.id;
-	models.Product.findOne({where:{Id_prod:condicion}})
+	models.Product.findOne({include:[models.Category],where:{Id_prod:condicion}})
 		.then(function(product){
 			if(product){
 				res.status(200).send(product)
@@ -89,7 +89,7 @@ function changeStatusProduct(req,res){
 	var status=params.status;
 	var condicion=params.id;
 	console.log(status+' '+condicion)
-	models.Product.update( {Activo: status}, {where: {Id_prod:condicion}})
+	models.Product.update( {Estatus: status}, {where: {Id_prod:condicion}})
 		.then(function(){
 			models.Product.findOne({where:{Id_prod:condicion}})
 				.then(function(product){
