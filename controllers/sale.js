@@ -82,15 +82,12 @@ function getSaleReport(req,res){
 	var inicio = new Date(inicioR);
 	var fin = new Date(finR);
 
-	var today = moment("19-03-2018").format('DD/MM/YYYY');
-
 	if(inicio&&fin){
 		var conditionalData = {
 	    	Fecha: {
 	        	$between: [inicio, fin]
 	    	}
 		}
-		console.log(inicio+' _________ '+fin);
 		models.Sale.findAll({where: conditionalData, include:[{model: models.Sale_Detail}]})
 		.then(function(sale){
 			if(sale){
