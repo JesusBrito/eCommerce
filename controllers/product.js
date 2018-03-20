@@ -24,7 +24,17 @@ function saveProduct(req,res){
 
 
 function getProducts(req,res) {
-	models.Product.findAll({include:[models.Category]})
+	models.Product.findAll()
+		.then(function(products){
+			res.status(200).send(products)
+		})
+		.catch(function(error){
+			res.status(500).send({message:"Error: "+ error})
+		});
+}
+
+function getProductsClient(req,res) {
+	models.Product.findAll({where:{Estatus:'A'}})
 		.then(function(products){
 			res.status(200).send(products)
 		})
@@ -180,5 +190,6 @@ module.exports={
 	changeStatusProduct,
 	addStock,
 	uploadImage,
-	getImageFile
+	getImageFile,
+	getProductsClient
 }

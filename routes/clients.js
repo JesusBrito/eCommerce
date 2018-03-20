@@ -7,6 +7,8 @@ var multipart= require('connect-multiparty');
 var md_upload= multipart({uploadDir: './uploads/clients'});
 
 
+api.get('/client', ClientController.getClients);
+api.get('/client/:rfc', ClientController.getClient);
 api.post('/register', ClientController.saveClient);
 api.put('/update-user', ClientController.updateClient);
 

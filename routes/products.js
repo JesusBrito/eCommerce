@@ -8,6 +8,7 @@ var md_upload= multipart({uploadDir: './uploads/products'});
 
 api.get('/producto', ProductController.getProducts);
 api.get('/producto/:id', ProductController.getProduct);
+api.get('/producto-client', ProductController.getProductsClient)
 api.post('/producto', ProductController.saveProduct);
 api.put('/producto', ProductController.updateProduct);
 api.put('/producto-add-stock', ProductController.addStock);
