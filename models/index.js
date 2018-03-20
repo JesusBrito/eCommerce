@@ -20,6 +20,9 @@ var Sale_Detail = sequelize.import(path.join(__dirname,'sale_detail'));
 var Sale = sequelize.import(path.join(__dirname,'sale'));
 
 //RELACIONES
+
+//Sale.belongsTo(Client);
+//Client.hasMany(Sale);
 Client.hasMany(Sale,{foreignKey:'RFC_FK'});
 Sale.belongsTo(Client,{as: 'Cliente', foreignKey:'RFC_FK'},{onDelete: 'cascade', hooks:true});
 
