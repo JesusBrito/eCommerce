@@ -2,10 +2,10 @@ module.exports={
 	port: process.env.PORT||8080,
 	db:{
 		database: process.env.DB_NAME ||'dbApiRest',
-		user: 'adminjj',
-		password:'juaeuioio',
+		user: 'eComLoc',
+		password:'juaeu¡o¡o',
 		options:{
-			host: process.env.HOST ||'instancemysql.cf21jk1wibrd.us-east-2.rds.amazonaws.com',
+			host: process.env.HOST ||'localhost',
 			dialect: process.env.DIALECT ||'mysql',
 			pool:{
 				maxConnections:100,

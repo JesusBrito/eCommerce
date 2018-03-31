@@ -127,7 +127,7 @@ function addStock(req,res){
 		Config.db.options
 	)
 	sequelize
-  		.query(' CALL SPUPDATESTOCK(:id,:stock)', 
+  		.query(' CALL SP_UPDATE_STOCK(:id,:stock)', 
         	{replacements: { id: condicion, stock: stockR}})
   		.then(function(){
   			res.status(200).send({message: "Se ha actualizado el stock"})

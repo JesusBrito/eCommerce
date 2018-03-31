@@ -46,7 +46,7 @@ Sale.hasMany(Sale_Detail);
 //Sale.hasMany(Sale_Detail,{foreignKey: 'No_Venta_FK'});
 //Sale_Detail.belongsTo(Sale, {as:'Sale', foreignKey: 'No_Venta_FK'});
 
-//sequelize.sync({force: true});
+sequelize.sync({force: true});
 //sequelize.sync();
 exports.Product = Product;
 exports.Client = Client;
