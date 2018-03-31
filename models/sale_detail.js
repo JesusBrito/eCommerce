@@ -8,13 +8,22 @@ module.exports = (sequelize, DataTypes)=>{
 			autoIncrement: true
 		},
 		Cantidad:{
-			type: Sequelize.INTEGER
+			type: Sequelize.INTEGER,
+			validate:{
+				isNumeric: true
+			}
 		},
 		Subtotal:{
-			type: Sequelize.FLOAT
+			type: Sequelize.FLOAT,
+			validate:{
+				isNumeric: true
+			}
 		},
 		Precio:{
-			type: Sequelize.FLOAT
+			type: Sequelize.FLOAT,
+			validate:{
+				isNumeric: true
+			}
 		}
 	});
 	return Det_Venta;

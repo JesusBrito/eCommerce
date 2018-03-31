@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes)=>{
 		},
 		Nombre_Categoria:{
 			type: Sequelize.STRING(20)
+		},
+		Str_img:{
+			type:Sequelize.STRING(50)  
 		}
 	});
 	return Categorias;

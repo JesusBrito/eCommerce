@@ -7,32 +7,56 @@ module.exports = (sequelize, DataTypes)=>{
 			primaryKey: true
 		},
 		Nombre:{
-			type: DataTypes.STRING(30),
-			required: true
+			type: DataTypes.STRING(50),
+			required: true,
+			validate:{
+				isAlpha: true,
+				max: 50
+			}
 		},
 		Descripcion:{
-			type: Sequelize.STRING(100) 
+			type: Sequelize.STRING(100),
+			required: true,
+			validate:{
+				isAlphanumeric: true,
+				max: 100
+			}
 		},
 		Str_img:{
 			type:Sequelize.STRING(50)  
 		},
 		Precio:{
-			type:Sequelize.FLOAT
+			type:Sequelize.FLOAT,
+			validate:{
+				isNumeric: true
+			}
 		},
 		Stock:{
-			type:Sequelize.INTEGER
+			type:Sequelize.INTEGER,
+			validate:{
+				isNumeric: true
+			}
 		},
 		Estatus:{
 			type: Sequelize.STRING(1)
 		},
 		Alto:{
-			type:Sequelize.FLOAT
+			type:Sequelize.FLOAT,
+			validate:{
+				isNumeric: true
+			}
 		},
 		Largo:{
-			type:Sequelize.FLOAT
+			type:Sequelize.FLOAT,
+			validate:{
+				isNumeric: true
+			}
 		},
 		Ancho:{
-			type:Sequelize.FLOAT
+			type:Sequelize.FLOAT,
+			validate:{
+				isNumeric: true
+			}
 		}
 	});
 	return Producto;
