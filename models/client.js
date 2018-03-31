@@ -1,4 +1,4 @@
-var Sequelize=require('sequelize-oracle');
+var Sequelize=require('sequelize');
 
 module.exports = (sequelize, DataTypes)=>{
 	const Cliente = sequelize.define('Cliente',{
@@ -8,6 +8,13 @@ module.exports = (sequelize, DataTypes)=>{
 			validate:{
 				isAlphanumeric: true,
 				max: 18
+			}
+		},
+		Password:{
+			type: Sequelize.STRING(35),
+			required: true,
+			validate:{
+				max: 35
 			}
 		},
 		Nombre:{
@@ -99,11 +106,12 @@ module.exports = (sequelize, DataTypes)=>{
 		}
 	},{
 		indexes: [
-		    // Create a unique index on email
-		    {
+		    // Create a unique index 
+
+		   {
 		      unique: true,
 		      fields: ['Email']
-		    }
+		   },
 		]
 	});
 	return Cliente;

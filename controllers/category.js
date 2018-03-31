@@ -1,5 +1,5 @@
 var models = require('../models');
-var Sequelize = require('sequelize-oracle');
+var Sequelize = require('sequelize');
 
 function getCategories(req,res) {
 	models.Category.findAll()

@@ -1,4 +1,4 @@
-var Sequelize=require('sequelize-oracle');
+var Sequelize=require('sequelize');
 
 module.exports = (sequelize, DataTypes)=>{
 	const Det_Venta = sequelize.define('Detalle_Venta',{

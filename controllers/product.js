@@ -1,5 +1,5 @@
 var models = require('../models')
-var Sequelize = require('sequelize-oracle');
+var Sequelize = require('sequelize');
 var Config=require('../config/config');
 var path= require('path');
 var fs= require('fs');

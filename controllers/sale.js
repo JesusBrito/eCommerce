@@ -1,5 +1,5 @@
 var models = require('../models')
-var Sequelize = require('sequelize-oracle');
+var Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 var Config=require('../config/config');
 var moment = require('moment');

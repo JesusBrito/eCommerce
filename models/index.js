@@ -1,6 +1,6 @@
 var path= require('path');
 var fs= require('fs');
-var Sequelize=require('sequelize-oracle');
+var Sequelize=require('sequelize');
 var Config=require('../config/config');
 
 var sequelize = new Sequelize(
@@ -21,10 +21,10 @@ var Sale = sequelize.import(path.join(__dirname,'sale'));
 
 //RELACIONES
 
-//Sale.belongsTo(Client);
-//Client.hasMany(Sale);
-Client.hasMany(Sale,{foreignKey:'RFC_FK'});
-Sale.belongsTo(Client,{as: 'Cliente', foreignKey:'RFC_FK'},{onDelete: 'cascade', hooks:true});
+Sale.belongsTo(Client);
+Client.hasMany(Sale);
+//Client.hasMany(Sale,{foreignKey:'RFC_FK'});
+//Sale.belongsTo(Client,{as: 'Cliente', foreignKey:'RFC_FK'},{onDelete: 'cascade', hooks:true});
 
 Product.belongsTo(Category);
 Category.hasMany(Product);

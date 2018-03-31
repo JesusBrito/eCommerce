@@ -1,17 +1,17 @@
-var Sequelize=require('sequelize-oracle');
+var Sequelize=require('sequelize');
 
 module.exports = (sequelize, DataTypes)=>{
 	const Categorias = sequelize.define('Categorias',{
 		Id_Categoria:{
-			type: Sequelize.STRING(10),
+			type: Sequelize.INTEGER,
 			primaryKey: true,
-			autoIncrement: true
+        	autoIncrement: true,
 		},
 		Nombre_Categoria:{
-			type: Sequelize.STRING(20)
+			type: Sequelize.STRING
 		},
 		Str_img:{
-			type:Sequelize.STRING(50)  
+			type:Sequelize.STRING  
 		}
 	});
 	return Categorias;
