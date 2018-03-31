@@ -6,7 +6,16 @@ var moment = require('moment');
 
 function getSaleClient(req,res) {
 	var condicion = req.params.rfc;
-	models.Sale.findAll({include:[models.Sale_Detail],where:{RFC_FK:condicion}})
+	models.Sale.findAll({where:{ClienteRFC:condicion},
+							include:[
+								{
+									model: models.Sale_Detail, 
+									include:[models.Color]
+								}
+							]
+						})
+
+
 		.then(function(sale){
 			if(sale){
 				res.status(200).send(sale)
