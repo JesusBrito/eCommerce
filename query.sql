@@ -56,7 +56,35 @@ INSERT INTO `dbApiRest`.`Clientes` (`RFC`, `Password`, `Nombre`, `Ap_Pat`, `Ap_M
 
 ##Ventas
 INSERT INTO `dbApiRest`.`Ventas` (`No_Venta`, `Fecha`, `Estatus`, `No_Rastreo`, `Costo_envio`, `Subtotal`, `Iva`, `Total`, `createdAt`, `updatedAt`, `ClienteRFC`) VALUES ('1', '2018-03-31 00:13:33', 'P', '12', '50', '1000', '160', '1160', '2018-03-31 00:13:33', '2018-03-31 00:13:33', 'BIBJ961129HDFRRN09');
+INSERT INTO `dbApiRest`.`Ventas` (`No_Venta`, `Fecha`, `Estatus`, `No_Rastreo`, `Costo_envio`, `Subtotal`, `Iva`, `Total`, `createdAt`, `updatedAt`, `ClienteRFC`) VALUES ('2', '2018-03-31 00:13:33', 'P', '12', '50', '1000', '160', '1160', '2018-03-31 00:13:33', '2018-03-31 00:13:33', 'BIBJ961129HDFRRN09');
+INSERT INTO `dbApiRest`.`Ventas` (`No_Venta`, `Fecha`, `Estatus`, `No_Rastreo`, `Costo_envio`, `Subtotal`, `Iva`, `Total`, `createdAt`, `updatedAt`, `ClienteRFC`) VALUES ('3', '2018-03-31 00:13:33', 'P', '12', '50', '1000', '160', '1160', '2018-03-31 00:13:33', '2018-03-31 00:13:33', 'BIBJ961129HDFRRN09');
+
+
+INSERT INTO `dbApiRest`.`Ventas` (`No_Venta`, `Fecha`, `Estatus`, `No_Rastreo`, `Costo_envio`, `Subtotal`, `Iva`, `Total`, `createdAt`, `updatedAt`, `ClienteRFC`) VALUES ('4', '2018-04-01 00:13:33', 'P', '12', '50', '1000', '160', '1160', '2018-03-31 00:13:33', '2018-03-31 00:13:33', 'BIBJ961129HDFRRN09');
+INSERT INTO `dbApiRest`.`Ventas` (`No_Venta`, `Fecha`, `Estatus`, `No_Rastreo`, `Costo_envio`, `Subtotal`, `Iva`, `Total`, `createdAt`, `updatedAt`, `ClienteRFC`) VALUES ('5', '2018-04-20 00:13:33', 'P', '12', '50', '1000', '160', '1160', '2018-03-31 00:13:33', '2018-03-31 00:13:33', 'BIBJ961129HDFRRN09');
+INSERT INTO `dbApiRest`.`Ventas` (`No_Venta`, `Fecha`, `Estatus`, `No_Rastreo`, `Costo_envio`, `Subtotal`, `Iva`, `Total`, `createdAt`, `updatedAt`, `ClienteRFC`) VALUES ('6', '2018-04-30 00:13:33', 'P', '12', '50', '1000', '160', '1160', '2018-03-31 00:13:33', '2018-03-31 00:13:33', 'BIBJ961129HDFRRN09');
+
 
 ##Detalle venta
 
 INSERT INTO `dbApiRest`.`Detalle_Venta` (`Id_Detalle`, `Cantidad`, `Subtotal`, `Precio`, `createdAt`, `updatedAt`, `ColoreIdColor`, `ProductoIdProd`, `VentaNoVenta`) VALUES ('2', '5', '100', '30', '2018-03-31 00:13:33', '2018-03-31 00:13:33', '2', '2', '1');
+INSERT INTO `dbApiRest`.`Detalle_Venta` (`Id_Detalle`, `Cantidad`, `Subtotal`, `Precio`, `createdAt`, `updatedAt`, `ColoreIdColor`, `ProductoIdProd`, `VentaNoVenta`) VALUES ('3', '5', '100', '30', '2018-03-31 00:13:33', '2018-03-31 00:13:33', '2', '2', '1');
+
+INSERT INTO `dbApiRest`.`Detalle_Venta` (`Id_Detalle`, `Cantidad`, `Subtotal`, `Precio`, `createdAt`, `updatedAt`, `ColoreIdColor`, `ProductoIdProd`, `VentaNoVenta`) VALUES ('4', '5', '100', '30', '2018-03-31 00:13:33', '2018-03-31 00:13:33', '2', '1', '2');
+INSERT INTO `dbApiRest`.`Detalle_Venta` (`Id_Detalle`, `Cantidad`, `Subtotal`, `Precio`, `createdAt`, `updatedAt`, `ColoreIdColor`, `ProductoIdProd`, `VentaNoVenta`) VALUES ('5', '5', '100', '30', '2018-03-31 00:13:33', '2018-03-31 00:13:33', '3', '2', '2');
+
+INSERT INTO `dbApiRest`.`Detalle_Venta` (`Id_Detalle`, `Cantidad`, `Subtotal`, `Precio`, `createdAt`, `updatedAt`, `ColoreIdColor`, `ProductoIdProd`, `VentaNoVenta`) VALUES ('6', '5', '100', '30', '2018-03-31 00:13:33', '2018-03-31 00:13:33', '1', '3', '3');
+INSERT INTO `dbApiRest`.`Detalle_Venta` (`Id_Detalle`, `Cantidad`, `Subtotal`, `Precio`, `createdAt`, `updatedAt`, `ColoreIdColor`, `ProductoIdProd`, `VentaNoVenta`) VALUES ('7', '5', '100', '30', '2018-03-31 00:13:33', '2018-03-31 00:13:33', '3', '2', '3');
+
+INSERT INTO `dbApiRest`.`Detalle_Venta` (`Id_Detalle`, `Cantidad`, `Subtotal`, `Precio`, `createdAt`, `updatedAt`, `ColoreIdColor`, `ProductoIdProd`, `VentaNoVenta`) VALUES ('8', '5', '100', '30', '2018-03-31 00:13:33', '2018-03-31 00:13:33', '3', '2', '4');
+INSERT INTO `dbApiRest`.`Detalle_Venta` (`Id_Detalle`, `Cantidad`, `Subtotal`, `Precio`, `createdAt`, `updatedAt`, `ColoreIdColor`, `ProductoIdProd`, `VentaNoVenta`) VALUES ('9', '5', '100', '30', '2018-03-31 00:13:33', '2018-03-31 00:13:33', '1', '3', '5');
+INSERT INTO `dbApiRest`.`Detalle_Venta` (`Id_Detalle`, `Cantidad`, `Subtotal`, `Precio`, `createdAt`, `updatedAt`, `ColoreIdColor`, `ProductoIdProd`, `VentaNoVenta`) VALUES ('10', '5', '100', '30', '2018-03-31 00:13:33', '2018-03-31 00:13:33', '3', '2', '6');
+
+
+CREATE DATABASE dbApiRest;
+
+Create user 'eComLoc'@'localhost' identified by 'juaeu¡o¡o' ;
+
+GRANT ALL PRIVILEGES ON dbApiRest.* TO 'eComLoc'@'localhost';
+
+FLUSH PRIVILEGES;

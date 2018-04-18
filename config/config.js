@@ -1,5 +1,5 @@
 module.exports={
-	port: process.env.PORT||8080,
+	port: process.env.PORT||3000,
 	db:{
 		database: process.env.DB_NAME ||'dbApiRest',
 		user: 'eComLoc',

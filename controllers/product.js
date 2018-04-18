@@ -1,6 +1,7 @@
 var models = require('../models')
 var Sequelize = require('sequelize');
 var Config=require('../config/config');
+const Op = Sequelize.Op;
 var path= require('path');
 var fs= require('fs');
 
@@ -16,6 +17,7 @@ function saveProduct(req,res){
 			 for (var i in error.errors) {
 			 console.log('Error en el campo:', error.errors[i].value);
 			 };
+			 res.status(500).send({error});
 		})
 		.catch(function(error) {
 			res.status(500).send({message:"Error: "+error});
@@ -24,7 +26,7 @@ function saveProduct(req,res){
 
 
 function getProducts(req,res) {
-	models.Product.findAll()
+	models.Product.findAll({include:[models.Category]})
 		.then(function(products){
 			res.status(200).send(products)
 		})
@@ -34,7 +36,7 @@ function getProducts(req,res) {
 }
 
 function getProductsClient(req,res) {
-	models.Product.findAll({where:{Estatus:'A'}})
+	models.Product.findAll({include:[models.Category],where:{Estatus:'A'}})
 		.then(function(products){
 			res.status(200).send(products)
 		})
@@ -47,6 +49,27 @@ function getProductsClient(req,res) {
 function getProduct(req,res) {
 	var condicion = req.params.id;
 	models.Product.findOne({include:[models.Category],where:{Id_prod:condicion}})
+		.then(function(product){
+			if(product){
+				res.status(200).send(product)
+			}else{
+				res.status(404).send({message:"No existe el producto"})
+			}
+		})
+		.catch(function(error){
+			res.status(500).send({message:"Error: "+ error})
+		});
+}
+
+
+function getProductByName(req,res) {
+	var nombre = req.params.nombre;
+	var conditionalData = {
+	    	Nombre: {
+	        	$like: '%'+nombre+'%'
+	    	}
+		}
+	models.Product.findAll({include:[models.Category],where: conditionalData})
 		.then(function(product){
 			if(product){
 				res.status(200).send(product)
@@ -129,10 +152,10 @@ function addStock(req,res){
 	sequelize
   		.query(' CALL SP_UPDATE_STOCK(:id,:stock)', 
         	{replacements: { id: condicion, stock: stockR}})
-  		.then(function(){
+  		.then(()=>{
   			res.status(200).send({message: "Se ha actualizado el stock"})
   		})
-  		.catch(error=>{
+  		.catch((error)=>{
   			res.status(500).send({error})
   		})
 }
@@ -142,7 +165,7 @@ function uploadImage(req, res) {
 	var file_name = 'No subido...';
 
 	if (req.files){
-		var file_path = req.files.image.path;
+		var file_path = req.files.Str_img.path;
 		var file_split = file_path.split('/');
 		var file_name = file_split[2];
 
@@ -191,5 +214,6 @@ module.exports={
 	addStock,
 	uploadImage,
 	getImageFile,
-	getProductsClient
+	getProductsClient,
+	getProductByName
 }

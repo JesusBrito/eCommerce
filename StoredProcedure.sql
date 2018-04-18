@@ -12,7 +12,7 @@ BEGIN
   
   UPDATE dbApiRest.Productos SET Productos.Stock = stockFin WHERE Productos.Id_prod = id;
 END //
-DELIMITER ;
+DELIMITER;
 
 
 DELIMITER //
@@ -24,4 +24,4 @@ BEGIN
   WHERE Productos.Id_prod = NEW.ProductoIdProd;
   
 END//
-DELIMITER ;
+DELIMITER;

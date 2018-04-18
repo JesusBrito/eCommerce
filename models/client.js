@@ -6,22 +6,18 @@ module.exports = (sequelize, DataTypes)=>{
 			type: Sequelize.STRING(18),
 			primaryKey: true,
 			validate:{
-				isAlphanumeric: true,
 				max: 18
 			}
 		},
 		Password:{
 			type: Sequelize.STRING(35),
 			required: true,
-			validate:{
-				max: 35
-			}
+			
 		},
 		Nombre:{
 			type: Sequelize.STRING(35),
 			required: true,
 			validate:{
-				isAlpha: true,
 				max: 35
 			}
 		},
@@ -29,7 +25,6 @@ module.exports = (sequelize, DataTypes)=>{
 			type: Sequelize.STRING(15),
 			required: true,
 			validate:{
-				isAlpha: true,
 				max: 15
 			}
 		},
@@ -37,7 +32,6 @@ module.exports = (sequelize, DataTypes)=>{
 			type: Sequelize.STRING(15),
 			required: true,
 			validate:{
-				isAlpha: true,
 				max: 15
 			}
 		},
@@ -45,7 +39,6 @@ module.exports = (sequelize, DataTypes)=>{
 			type: Sequelize.STRING(20),
 			required: true,
 			validate:{
-				isAlpha: true,
 				max: 20
 			}
 		},
@@ -53,7 +46,6 @@ module.exports = (sequelize, DataTypes)=>{
 			type: Sequelize.STRING(20),
 			required: true,
 			validate:{
-				isAlpha: true,
 				max: 20
 			}
 		},
@@ -68,7 +60,6 @@ module.exports = (sequelize, DataTypes)=>{
 			type: Sequelize.STRING(20),
 			required: true,
 			validate:{
-				isAlpha: true,
 				max: 20
 			}
 		},
@@ -76,7 +67,6 @@ module.exports = (sequelize, DataTypes)=>{
 			type:Sequelize.STRING(20),
 			required: true,
 			validate:{
-				isAlpha: true,
 				max: 20
 			}	
 		},
@@ -95,6 +85,9 @@ module.exports = (sequelize, DataTypes)=>{
 				isNumeric: true,
 				max: 14
 			}
+		},
+		Role:{
+			type:Sequelize.STRING(8),
 		},
 		Email:{
 			type:Sequelize.STRING(40),

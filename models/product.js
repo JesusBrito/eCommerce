@@ -10,7 +10,6 @@ module.exports = (sequelize, DataTypes)=>{
 			type: DataTypes.STRING(50),
 			required: true,
 			validate:{
-				isAlpha: true,
 				max: 50
 			}
 		},
@@ -18,7 +17,6 @@ module.exports = (sequelize, DataTypes)=>{
 			type: Sequelize.STRING(100),
 			required: true,
 			validate:{
-				isAlphanumeric: true,
 				max: 100
 			}
 		},
