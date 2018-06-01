@@ -28,7 +28,7 @@ function saveDetail(req,res){
 	var saleDetail = models.Sale_Detail.build(params)
 	saleDetail.save()
 		.then(function(saleDetail){
-			res.status(200).send(saleDetail)
+			res.status(200).send()
 		})
     	.catch(Sequelize.ValidationError, function(error) {
 			 console.log("Errores de validación:", error);
@@ -69,8 +69,7 @@ function getSaleClient(req,res) {
 
 function getSaleNo(req,res) {
 	var condicion = req.params.noventa;
-	var rfc = req.params.rfc;
-	models.Sale.findOne({where:{No_Venta:condicion, ClienteRFC:rfc }, 
+	models.Sale.findAll({where:{No_Venta:condicion}, 
 		include:[
 			{model: models.Sale_Detail,
 				include:[
@@ -90,44 +89,49 @@ function getSaleNo(req,res) {
 		});
 }
 
-function changeSaleStatus(req,res) {
-	var params= req.params;
-	var status=params.status;
-	var condicion=params.id;
-	models.Sale.update( {Estatus: status}, {where: {No_Venta:condicion}})
-		.then(function(){
-			models.Sale.findOne({where:{No_Venta:condicion}})
-				.then(function(sale){
-					if(sale){
-						res.status(200).send(sale)
-					}else{
-						res.status(404).send({message:"No existe la venta"})
-					}
-				})
+
+function getSaleNoClient(req,res) {
+	var noVenta = req.params.noventa;
+	var rfc = req.params.rfc;
+	models.Sale.findAll({where:{$and:[{RFC:rfc},{No_Venta:noVenta}]}, 
+		include:[
+			{model: models.Sale_Detail,
+				include:[
+					{model:models.Product},
+					{model:models.Color}]
+				}
+		]})
+		.then(function(sale){
+			if(sale){
+				res.status(200).send(sale)
+			}else{
+				res.status(404).send({message:"No existen ventas"})
+			}
 		})
 		.catch(function(error){
 			res.status(500).send({message:"Error: "+ error})
-		})	
+		});
 }
 
-function addSalesTracking(req,res) {
+
+function updateSale(req,res){
 	var params= req.body;
-	var numero=params.norastreo;
-	var condicion= params.id;
-	models.Sale.update( {No_Rastreo: numero}, {where: {No_Venta:condicion}})
-		.then(function(){
-			models.Sale.findOne({where:{No_Venta:condicion}})
-				.then(function(sale){
-					if(sale){
-						res.status(200).send(sale)
-					}else{
-						res.status(404).send({message:"No existe la venta"})
-					}
-				})
+	var condicion=params.No_Venta;
+	console.log(condicion)
+	models.Sale.update(params, {where:{No_Venta:condicion}})
+	.then(function(){
+		models.Sale.findOne({where:{No_Venta:condicion}})
+			.then(function(sale){
+				if(sale){
+					res.status(200).send(sale)
+				}else{
+					res.status(404).send({message:"No existe la venta"})
+				}
+			})
 		})
 		.catch(function(error){
 			res.status(500).send({message:"Error: "+ error})
-		})	
+		})
 }
 
 function getSaleReport(req,res){
@@ -143,7 +147,14 @@ function getSaleReport(req,res){
 	        	$between: [inicio, fin]
 	    	}
 		}
-		models.Sale.findAll({where: conditionalData, include:[{model: models.Sale_Detail}]})
+		models.Sale.findAll({where: conditionalData, 
+						include:[
+							{model: models.Sale_Detail,
+								include:[
+									{model:models.Product},
+									{model:models.Color}]
+								}
+						]})
 		.then(function(sale){
 			if(sale){
 				res.status(200).send(sale)
@@ -180,9 +191,9 @@ function getSaleReport(req,res){
 module.exports={
 	getSaleClient,
 	getSaleNo,
-	changeSaleStatus,
-	addSalesTracking,
+	updateSale,
 	getSaleReport,
 	saveSale,
-	saveDetail
+	saveDetail,
+	getSaleNoClient
 }

@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes)=>{
 			}
 		},
 		Password:{
-			type: Sequelize.STRING(35),
+			type: Sequelize.STRING(100),
 			required: true,
 			
 		},
@@ -58,33 +58,19 @@ module.exports = (sequelize, DataTypes)=>{
 		},
 		Ciudad:{
 			type: Sequelize.STRING(20),
-			required: true,
-			validate:{
-				max: 20
-			}
+			required: true
 		},
 		Estado:{
 			type:Sequelize.STRING(20),
-			required: true,
-			validate:{
-				max: 20
-			}	
+			required: true
 		},
 		Cp:{
 			type:Sequelize.STRING(5),
-			required: true,
-			validate:{
-				isNumeric: true,
-				max: 5
-			}
+			required: true
 		},
 		Telefono:{
 			type:Sequelize.STRING(14),
-			required: true,
-			validate:{
-				isNumeric: true,
-				max: 14
-			}
+			required: true
 		},
 		Role:{
 			type:Sequelize.STRING(8),

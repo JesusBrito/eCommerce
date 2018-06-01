@@ -47,8 +47,13 @@ function getProductsClient(req,res) {
 
 
 function getProduct(req,res) {
-	var condicion = req.params.id;
-	models.Product.findOne({include:[models.Category],where:{Id_prod:condicion}})
+	var idArticulo = req.params.id;
+	var conditionalData = {
+	    	Id_prod: {
+	        	$like: idArticulo+'%'
+	    	}
+		}
+	models.Product.findAll({include:[models.Category],where:conditionalData})
 		.then(function(product){
 			if(product){
 				res.status(200).send(product)
@@ -60,6 +65,8 @@ function getProduct(req,res) {
 			res.status(500).send({message:"Error: "+ error})
 		});
 }
+
+
 
 
 function getProductByName(req,res) {
@@ -82,11 +89,24 @@ function getProductByName(req,res) {
 		});
 }
 
+function getProductById(req,res) {
+	var idArticulo = req.params.id;
+	models.Product.findOne({include:[models.Category],where:{Id_Prod:idArticulo}})
+		.then(function(product){
+			if(product){
+				res.status(200).send()
+			}else{
+				res.status(404).send({message:"No existe el producto"})
+			}
+		})
+		.catch(function(error){
+			res.status(500).send({message:"Error: "+ error})
+		});
+}
 
 function deleteProduct(req,res){
 	var params= req.body;
 	var condicion=params.Id_prod;
-	console.log(condicion);
 	models.Product.destroy({where:{Id_prod:condicion}})
 		.then(function(){
 				res.status(200).send({message:"Se eliminó el producto"})
@@ -121,7 +141,6 @@ function changeStatusProduct(req,res){
 	var params= req.params;
 	var status=params.status;
 	var condicion=params.id;
-	console.log(status+' '+condicion)
 	models.Product.update( {Estatus: status}, {where: {Id_prod:condicion}})
 		.then(function(){
 			models.Product.findOne({where:{Id_prod:condicion}})
@@ -141,8 +160,7 @@ function changeStatusProduct(req,res){
 function addStock(req,res){
 	var params= req.body;
 	var stockR=params.stock;
-	var condicion=params.Id_product;
-	
+	var condicion=params.Id_prod;
 	var sequelize = new Sequelize(
 		Config.db.database,
 		Config.db.user,
@@ -204,6 +222,41 @@ function getImageFile(req,res){
 	});
 }
 
+function ProductsXCategory(req,res) {
+	var idCategoria = req.params.id;
+	var nombreProducto = req.params.name;
+	if(nombreProducto){
+		var conditionalData = {
+	    	Nombre: {
+	        	$like: '%'+nombreProducto+'%'
+	    	}
+		}
+		models.Product.findAll({where:{$and:[conditionalData,{CategoriaIdCategoria:idCategoria}]}})
+		.then(function(products){
+			if(products){
+				res.status(200).send(products)
+			}else{
+				res.status(404).send({message:"No existen productos asociados a la categoría"})
+			}
+		})
+		.catch(function(error){
+			res.status(500).send({message:"Error: "+ error})
+		}); 
+	}else{
+		models.Product.findAll({where:{CategoriaIdCategoria:idCategoria}})
+		.then(function(products){
+			if(products){
+				res.status(200).send(products)
+			}else{
+				res.status(404).send({message:"No existen productos asociados a la categoría"})
+			}
+		})
+		.catch(function(error){
+			res.status(500).send({message:"Error: "+ error})
+		}); 
+	}
+}
+
 module.exports={
 	getProduct,
 	saveProduct,
@@ -215,5 +268,7 @@ module.exports={
 	uploadImage,
 	getImageFile,
 	getProductsClient,
-	getProductByName
+	getProductByName,
+	getProductById,
+	ProductsXCategory
 }

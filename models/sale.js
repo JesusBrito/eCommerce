@@ -20,22 +20,13 @@ module.exports = (sequelize, DataTypes)=>{
 			type: Sequelize.FLOAT
 		},
 		Subtotal:{
-			type: Sequelize.FLOAT,
-			validate:{
-				isNumeric: true
-			}
+			type: Sequelize.FLOAT
 		},
 		Iva:{
-			type: Sequelize.FLOAT,
-			validate:{
-				isNumeric: true
-			}
+			type: Sequelize.FLOAT
 		},
 		Total:{
-			type: Sequelize.FLOAT,
-			validate:{
-				isNumeric: true
-			}
+			type: Sequelize.FLOAT
 		}
 	});
 	return Venta;

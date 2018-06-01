@@ -1,10 +1,14 @@
-var Config=require('../config/config');
-var models = require('../models');
+var nodemailer = require('nodemailer');
 var Sequelize = require('sequelize');
 var bcrypt = require('bcrypt-nodejs');
+var smtpTransport = require('nodemailer-smtp-transport');
+
+var Config=require('../config/config');
+var models = require('../models');
 var jwt = require('../services/jwt');
 var path= require('path');
 var fs= require('fs');
+const Op = Sequelize.Op;
 
 
 function getClients(req,res) {
@@ -18,10 +22,34 @@ function getClients(req,res) {
 }
 
 function getClient(req,res) {
-	var rfc=req.params.rfc
-	models.Client.findOne({where:{RFC:rfc}})
-		.then(function(clients){
-			res.status(200).send(clients)
+	var condicion=req.params.condicion
+	var conditionalData = {
+	    	RFC: {
+	        	$like: condicion+'%'
+	    	}
+		}
+	models.Client.findAll({where:conditionalData})
+		.then(function(client){
+			if(client){
+				res.status(200).send(client)
+			}else{
+				res.status(404).send({message:"No existe el cliente"})
+			}
+		})
+		.catch(function(error){
+			res.status(500).send({message:"Error: "+ error})
+		});
+}
+
+function getClientValidation(req,res) {
+	var condicion=req.params.condicion
+	models.Client.findOne({where:{$or:[{RFC:condicion},{Email:condicion}]}})
+		.then(function(client){
+			if(client){
+				res.status(200).send(client)
+			}else{
+				res.status(404).send({message:"No existe el cliente"})
+			}
 		})
 		.catch(function(error){
 			res.status(500).send({message:"Error: "+ error})
@@ -29,13 +57,12 @@ function getClient(req,res) {
 }
 
 
+
 function saveClient(req,res){
 	var params = req.body;
-	console.log(params);
 
 	var client = models.Client.build(params)
 
-	//client.role= 'admin';
 	client.image= 'null';
 
 	if(params.Password){
@@ -44,8 +71,8 @@ function saveClient(req,res){
 			if(client.Nombre!= null && client.Ap_Pat!=null && client.Ap_Pat!=null){
 				//Guardar usuario en la bd 
 				client.save()
-					.then(function(product){
-						res.status(200).send(client)
+					.then(function(){
+						res.status(200).send({message:'Registro correcto'});
 					})
 			    	.catch(Sequelize.ValidationError, function(error) {
 						 console.log("Errores de validación:", error);
@@ -70,10 +97,9 @@ function saveClient(req,res){
 
 function loginClient(req,res){
 	var params = req.body;
-	var email= params.email;
-	var password = params.password;
-
-	models.Client.findOne({where:{Email:email.toLowerCase()}})
+	var rfc= params.Rfc;
+	var password = params.Password;
+	models.Client.findOne({where:{RFC:rfc.toLowerCase()}})
 		.then(function(client){
 			if(client){
 					bcrypt.compare(password, client.dataValues.Password, (err, check )=>{
@@ -88,28 +114,88 @@ function loginClient(req,res){
 							res.status(200).send({client});
 						}
 					}else {
-						res.status(404).send({message:'El usuario no se ha podido logguear'});
+						res.status(404).send({message:'El usuario no ha podido iniciar sesión'});
 					}
-				});
+				})
 			}else{
 				res.status(404).send({message:"No existe el usuario"})
 			}
 		})
 		.catch(function(error){
 			res.status(500).send({message:"Error: "+ error})
-		});
+		})
+}
 
+function sendEmail(req,res){
+	var params= req.body;
+	var rfc=params.Rfc;
+
+	models.Client.findOne({where:{RFC:rfc}})
+		.then(function(client){
+			if(client){
+				var passwordAleatorio = Math.floor((Math.random() * 999999) + 100000);
+				var email= client.Email
+
+				//Actualizar password con la contraseña aleatoria
+				
+				params.Password=passwordAleatorio
+
+				bcrypt.hash(params.Password,null,null, function(err,hash){
+					params.Password=hash;
+
+					models.Client.update(params, {where:{RFC:rfc}})
+					.then(function(){
+						if(client){
+							//Envíar la contraseña por el email 
+							// Definimos el transporter
+							var transporter = nodemailer.createTransport(smtpTransport({
+							    service: 'gmail',
+							    auth: {
+							        user: 'jesu291196@gmail.com',
+							        pass: 'juaeuioio29'
+							    }
+							}));
+
+							// Definimos el email
+							var mailOptions = {
+						    from: 'jesu291196@gmail.com',
+						    to: `${email}`,
+						    subject: 'Recuperación de contraseña',
+						    text:  `Se ha generado una contraseña temporal, por favor ingresa con esta y actualiza tus datos ${passwordAleatorio}`
+							};
+							// Enviamos el email
+							transporter.sendMail(mailOptions, function(error, info){
+							    if (error){
+							        res.status(500).send();
+							    } else {
+							        console.log("Email sent");
+							        res.status(200).send();
+							    }
+							})
+						}else{
+							res.status(404).send({message:"No existe el Cliente"})
+						}
+					})
+					.catch(function(error){
+						res.status(500).send({message:"Error al hacer update: "+ error})
+					})
+				})
+			}else{
+				res.status(404).send({message:"No existe un cliente con el correo asociado"})
+			}
+		})
+		.catch(function(error){
+			res.status(500).send({message:"Error al buscar: "+ error})
+		});
 }
 
 
 function updateClient(req,res){
 	var clientId = req.params.rfc;
 	var update = req.body;
-	console.log(update)
 	if (update.Password){
 		bcrypt.hash(update.Password,null,null, function(err,hash){
 		update.Password=hash;
-			console.log(update)
 			Update(update, clientId, res)
 			
 		})
@@ -124,7 +210,7 @@ function Update(update, clientId, res){
 			models.Client.findOne({where:{RFC:clientId}})
 				.then(function(client){
 					if(client){
-						res.status(200).send(client)
+						res.status(200).send()
 					}else{
 						res.status(404).send({message:"No existe el Cliente"})
 						}
@@ -140,5 +226,7 @@ module.exports={
 	updateClient,
 	getClients,
 	getClient,
-	loginClient
+	loginClient,
+	getClientValidation,
+	sendEmail
 }
