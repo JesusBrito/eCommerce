@@ -166,7 +166,7 @@ function sendEmail(req,res){
 							// Enviamos el email
 							transporter.sendMail(mailOptions, function(error, info){
 							    if (error){
-							        res.status(500).send();
+							        res.status(500).send(error);
 							    } else {
 							        console.log("Email sent");
 							        res.status(200).send();

@@ -36,17 +36,17 @@ module.exports = (sequelize, DataTypes)=>{
 			}
 		},
 		Calle:{
-			type: Sequelize.STRING(20),
+			type: Sequelize.STRING(50),
 			required: true,
 			validate:{
-				max: 20
+				max: 50
 			}
 		},
 		Colonia:{
-			type: Sequelize.STRING(20),
+			type: Sequelize.STRING(50),
 			required: true,
 			validate:{
-				max: 20
+				max: 50
 			}
 		},
 		Numero:{
