@@ -112,8 +112,8 @@ function loginClient(req,res){
 							});
 						}else{
 							console.log(client)
-							client.splice(2, 2)
-							console.log(client)
+							//client.splice(2, 2)
+							//console.log(client)
 							res.status(200).send({client});
 						}
 					}else {
