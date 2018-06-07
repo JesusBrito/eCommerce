@@ -47,6 +47,7 @@ Sale.hasMany(Sale_Detail);
 
 //sequelize.sync({force: true});
 //sequelize.sync();
+//
 exports.Product = Product;
 exports.Client = Client;
 exports.Sale = Sale;
