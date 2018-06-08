@@ -24,10 +24,7 @@ module.exports = (sequelize, DataTypes)=>{
 			type:Sequelize.STRING(50)  
 		},
 		Precio:{
-			type:Sequelize.FLOAT,
-			validate:{
-				isNumeric: true
-			}
+			type:Sequelize.FLOAT
 		},
 		Stock:{
 			type:Sequelize.INTEGER,
@@ -39,22 +36,13 @@ module.exports = (sequelize, DataTypes)=>{
 			type: Sequelize.STRING(1)
 		},
 		Alto:{
-			type:Sequelize.FLOAT,
-			validate:{
-				isNumeric: true
-			}
+			type:Sequelize.FLOAT
 		},
 		Largo:{
-			type:Sequelize.FLOAT,
-			validate:{
-				isNumeric: true
-			}
+			type:Sequelize.FLOAT
 		},
 		Ancho:{
-			type:Sequelize.FLOAT,
-			validate:{
-				isNumeric: true
-			}
+			type:Sequelize.FLOAT
 		}
 	});
 	return Producto;

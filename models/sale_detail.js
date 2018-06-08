@@ -14,16 +14,10 @@ module.exports = (sequelize, DataTypes)=>{
 			}
 		},
 		Subtotal:{
-			type: Sequelize.FLOAT,
-			validate:{
-				isNumeric: true
-			}
+			type: Sequelize.FLOAT
 		},
 		Precio:{
-			type: Sequelize.FLOAT,
-			validate:{
-				isNumeric: true
-			}
+			type: Sequelize.FLOAT
 		}
 	});
 	return Det_Venta;

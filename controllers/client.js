@@ -111,7 +111,8 @@ function loginClient(req,res){
 								token: jwt.createToken(client)
 							});
 						}else{
-							console.log(client)
+							//console.log(client)
+							//
 							//client.splice(2, 2)
 							//console.log(client)
 							res.status(200).send({client});
