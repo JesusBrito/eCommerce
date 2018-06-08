@@ -93,7 +93,7 @@ function getSaleNo(req,res) {
 function getSaleNoClient(req,res) {
 	var noVenta = req.params.noventa;
 	var rfc = req.params.rfc;
-	models.Sale.findAll({where:{$and:[{RFC:rfc},{No_Venta:noVenta}]}, 
+	models.Sale.findAll({where:{$and:[{ClienteRFC:rfc},{No_Venta:noVenta}]}, 
 		include:[
 			{model: models.Sale_Detail,
 				include:[
