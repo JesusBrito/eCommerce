@@ -22,6 +22,7 @@ var client_routes = require('./routes/clients');
 var category_routes = require('./routes/categories');
 var sale_routes = require('./routes/sales');
 var color_routes = require('./routes/color');
+var alm_routes = require('./routes/almacen');
 
 
 
@@ -31,5 +32,6 @@ app.use('/', client_routes);
 app.use('/', category_routes);
 app.use('/', sale_routes);
 app.use('/', color_routes);
+app.use('/', alm_routes)
 
 module.exports=app;

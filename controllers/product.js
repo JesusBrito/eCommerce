@@ -168,7 +168,7 @@ function addStock(req,res){
 		Config.db.options
 	)
 	sequelize
-  		.query(' CALL SP_UPDATE_STOCK(:id,:stock)', 
+  		.query(' CALL SP_UPDATE_STOCK(:id,:stock)',
         	{replacements: { id: condicion, stock: stockR}})
   		.then(()=>{
   			res.status(200).send({message: "Se ha actualizado el stock"})
@@ -241,7 +241,7 @@ function ProductsXCategory(req,res) {
 		})
 		.catch(function(error){
 			res.status(500).send({message:"Error: "+ error})
-		}); 
+		});
 	}else{
 		models.Product.findAll({where:{CategoriaIdCategoria:idCategoria}})
 		.then(function(products){
@@ -253,7 +253,7 @@ function ProductsXCategory(req,res) {
 		})
 		.catch(function(error){
 			res.status(500).send({message:"Error: "+ error})
-		}); 
+		});
 	}
 }
 
