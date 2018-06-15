@@ -18,35 +18,32 @@ var Color = sequelize.import(path.join(__dirname,'color'));
 var Category = sequelize.import(path.join(__dirname,'category'));
 var Sale_Detail = sequelize.import(path.join(__dirname,'sale_detail'));
 var Sale = sequelize.import(path.join(__dirname,'sale'));
+var Almacen_Color = sequelize.import(path.join(__dirname,'almXcolor'));
 
 //RELACIONES
 Sale.belongsTo(Client);
 Client.hasMany(Sale);
-//Client.hasMany(Sale,{foreignKey:'RFC_FK'});
-//Sale.belongsTo(Client,{as: 'Cliente', foreignKey:'RFC_FK'},{onDelete: 'cascade', hooks:true});
 
 Product.belongsTo(Category);
 Category.hasMany(Product);
-//Product.belongsTo(Category,{as:'Categoria', foreignKey: 'Id_Categoria_FK'});
-//Category.hasMany(Product,{foreignKey: 'Id_Categoria_FK'});
-
-Sale_Detail.belongsTo(Color);
-Color.hasMany(Sale_Detail);
-//Color.hasMany(Product,{foreignKey: 'Id_Color_FK'});
-//Product.belongsTo(Color,{as:'Color', foreignKey: 'Id_Color_FK'});
-
-Sale_Detail.belongsTo(Product);
-Product.hasMany(Sale_Detail);
-//Product.hasMany(Sale_Detail,{foreignKey: 'Id_Producto_FK'});
-//Sale_Detail.belongsTo(Product,{as:'Product', foreignKey: 'Id_Producto_FK' });
 
 Sale_Detail.belongsTo(Sale);
 Sale.hasMany(Sale_Detail);
-//Sale.hasMany(Sale_Detail,{foreignKey: 'No_Venta_FK'});
-//Sale_Detail.belongsTo(Sale, {as:'Sale', foreignKey: 'No_Venta_FK'});
+
+Sale_Detail.belongsTo(Product);
+Product.hasMany(Sale_Detail);
+
+Almacen_Color.belongsTo(Product);
+Product.hasMany(Almacen_Color);
+
+Almacen_Color.belongsTo(Color);
+Color.hasMany(Almacen_Color);
 
 //sequelize.sync({force: true});
 //sequelize.sync();
+
+
+
 //
 exports.Product = Product;
 exports.Client = Client;
@@ -54,3 +51,4 @@ exports.Sale = Sale;
 exports.Category = Category;
 exports.Color = Color;
 exports.Sale_Detail = Sale_Detail;
+exports.Almacen_Color = Almacen_Color;

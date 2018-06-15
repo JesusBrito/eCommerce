@@ -23,15 +23,6 @@ module.exports = (sequelize, DataTypes)=>{
 		Str_img:{
 			type:Sequelize.STRING(50)  
 		},
-		Precio:{
-			type:Sequelize.FLOAT
-		},
-		Stock:{
-			type:Sequelize.INTEGER,
-			validate:{
-				isNumeric: true
-			}
-		},
 		Estatus:{
 			type: Sequelize.STRING(1)
 		},
