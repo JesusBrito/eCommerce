@@ -59,8 +59,46 @@ function getAlmacenXColor(req,res) {
 }
 
 
+
+function updatePrice(req, res){
+	var params = req.body
+	var condicion=params.Id_Alm
+	models.Almacen_Color.update(params, {where:{Id_Alm_Color:condicion}})
+	.then(function(){
+		models.Almacen_Color.findOne({where:{Id_Alm_Color:condicion}})
+			.then(function(almacen){
+				if(almacen){
+					res.status(200).send(product)
+				}else{
+					res.status(404).send({message:"No existe el producto"})
+				}
+			})
+		})
+		.catch(function(error){
+			res.status(500).send({message:"Error: "+ error})
+		})
+}
+
+function productosxAlmacen(req,res){
+	var idProd= req.params.idProd
+	//Obtener almacenes
+	models.Almacen_Color.findAll({where:{ProductoIdProd:idProd},
+								include:[
+									{model:models.Product},
+									{model:models.Color}
+								]})
+		.then(function(Almacenes){
+			res.status(200).send(Almacenes)
+		})
+		.catch(function(error){
+			res.status(500).send({message:"Error: "+ error})
+		});
+}
+
 module.exports={
-  addStock,
-  getAlmacen,
-	getAlmacenXColor
+  	addStock,
+  	getAlmacen,
+	getAlmacenXColor,
+	updatePrice,
+	productosxAlmacen
 }
