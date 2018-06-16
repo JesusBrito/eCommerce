@@ -28,9 +28,9 @@ function addStock(req,res){
 //Obtener almacenes
 function getAlmacen(req,res) {
 	models.Almacen_Color.findAll({include:[
-																	{model:models.Product},
-																	{model:models.Color}
-																]})
+										{model:models.Product},
+										{model:models.Color}
+								]})
 		.then(function(Almacenes){
 			res.status(200).send(Almacenes)
 		})
@@ -95,10 +95,28 @@ function productosxAlmacen(req,res){
 		});
 }
 
+function addAlmacen(req, res){
+	var params = req.body
+
+	var almacen = models.Almacen_Color.build(params)
+	almacen.save()
+		.then(function(almacenSaved){
+			if (almacenSaved) {
+				res.status(200).send(almacenSaved)
+			}else{
+				res.status(404).send()
+			}
+		})
+		.catch(function(error) {
+			res.status(500).send({message:"Error: "+error});
+		});
+}
+
 module.exports={
   	addStock,
   	getAlmacen,
 	getAlmacenXColor,
 	updatePrice,
-	productosxAlmacen
+	productosxAlmacen,
+	addAlmacen
 }
