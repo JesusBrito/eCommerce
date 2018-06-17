@@ -60,7 +60,7 @@ function getAlmacenXColor(req,res) {
 
 
 
-function updatePrice(req, res){
+function updateStock(req, res){
 	var params = req.body
 	var condicion=params.Id_Alm
 	models.Almacen_Color.update(params, {where:{Id_Alm_Color:condicion}})
@@ -78,6 +78,7 @@ function updatePrice(req, res){
 			res.status(500).send({message:"Error: "+ error})
 		})
 }
+
 
 function productosxAlmacen(req,res){
 	var idProd= req.params.idProd
@@ -97,7 +98,6 @@ function productosxAlmacen(req,res){
 
 function addAlmacen(req, res){
 	var params = req.body
-
 	var almacen = models.Almacen_Color.build(params)
 	almacen.save()
 		.then(function(almacenSaved){
@@ -111,6 +111,7 @@ function addAlmacen(req, res){
 			res.status(500).send({message:"Error: "+error});
 		});
 }
+
 
 function validarAlmacen(req,res){
 	var params = req.params
@@ -135,7 +136,7 @@ module.exports={
   	addStock,
   	getAlmacen,
 	getAlmacenXColor,
-	updatePrice,
+	updateStock,
 	productosxAlmacen,
 	addAlmacen,
 	validarAlmacen
