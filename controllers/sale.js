@@ -169,12 +169,7 @@ function getSaleReport(req,res){
 	}else{
 		models.Sale.findAll({
 			include:[
-			{model: models.Sale_Detail,
-				include:[
-					{model:models.Almacen_Color,
-						include:[
-							{model:models.Product}]}]
-				}
+				{model: models.Sale_Detail}
 		]})
 		.then(function(sale){
 			if(sale){
