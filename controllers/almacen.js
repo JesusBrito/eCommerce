@@ -123,7 +123,7 @@ function validarAlmacen(req,res){
 			if(almacen){
 				res.status(200).send(almacen)
 			}else{
-				res.status(200).send({message:"No existe almacén con ese color"})
+				res.status(404).send({message:"No existe almacén con ese color"})
 			}
 		})
 		.catch(function(error){
