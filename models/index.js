@@ -30,15 +30,14 @@ Category.hasMany(Product);
 Sale_Detail.belongsTo(Sale);
 Sale.hasMany(Sale_Detail);
 
-Sale_Detail.belongsTo(Product);
-Product.hasMany(Sale_Detail);
+Sale_Detail.belongsTo(Almacen_Color);
+Almacen_Color.hasMany(Sale_Detail);
 
 Almacen_Color.belongsTo(Product);
 Product.hasMany(Almacen_Color);
 
 Almacen_Color.belongsTo(Color);
 Color.hasMany(Almacen_Color);
-
 //sequelize.sync({force: true});
 //sequelize.sync();
 
