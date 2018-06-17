@@ -162,7 +162,10 @@ function getSaleReport(req,res){
 			res.status(500).send({message:"Error: "+ error})
 		});
 	}else{
-		models.Sale.findAll()
+		models.Sale.findAll({
+			include:[
+				{model: models.Sale_Detail}
+		]})
 		.then(function(sale){
 			if(sale){
 				res.status(200).send(sale)
