@@ -74,7 +74,9 @@ function getSaleNo(req,res) {
 			{model: models.Sale_Detail,
 				include:[
 					{model:models.Almacen_Color,
-						include:[{model:models.Product}]
+						include:[
+							{model:models.Product},
+							{model:models.Color}]
 					}]
 				}
 		]})
