@@ -118,7 +118,7 @@ function validarAlmacen(req,res){
 	var idColor= params.idColor
 	var idProd= params.idProd
 
-	models.Almacen_Color.findAll({where:{$and:[{ProductoIdProd:idProd, ColoreIdColor:idColor}]}})
+	models.Almacen_Color.findOne({where:{$and:[{ProductoIdProd:idProd, ColoreIdColor:idColor}]}})
 		.then(function(almacen){
 			if(almacen){
 				res.status(200).send(almacen)
