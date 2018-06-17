@@ -69,9 +69,9 @@ function updateStock(req, res){
 		models.Almacen_Color.findOne({where:{Id_Alm_Color:condicion}})
 			.then(function(almacen){
 				if(almacen){
-					res.status(200).send(product)
+					res.status(200).send(almacen)
 				}else{
-					res.status(404).send({message:"No existe el producto"})
+					res.status(404).send({message:"No existe el almacen"})
 				}
 			})
 		})
