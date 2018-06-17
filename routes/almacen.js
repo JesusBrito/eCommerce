@@ -15,6 +15,6 @@ api.get('/almacen-color/:idColor/:idProd', AlmacenController.getAlmacenXColor)
 //api.get('/almacen', AlmacenController.getAlmacen)
 api.put('/almacen-update-price/:Id_Alm',  md_auth.ensureAuth, AlmacenController.updatePrice)
 api.get('/almacenes-producto/:idProd',   AlmacenController.productosxAlmacen)
-api.get('Validar-almacen/:idProd/:idColor', md_auth.ensureAuth, AlmacenController.validarAlmacen)
+api.get('validar-almacen/:idProd/:idColor', md_auth.ensureAuth, AlmacenController.validarAlmacen)
 module.exports= api;
 
