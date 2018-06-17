@@ -112,11 +112,31 @@ function addAlmacen(req, res){
 		});
 }
 
+function validarAlmacen(req,res){
+	var params = req.params
+
+	var idColor= params.idColor
+	var idProd= params.idProd
+
+	models.Almacen_Color.findAll({where:{$and:[{ProductoIdProd:idProd, ColoreIdColor:idColor}]}})
+		.then(function(almacen){
+			if(almacen){
+				res.status(200).send(almacen)
+			}else{
+				res.status(200).send()
+			}
+		})
+		.catch(function(error){
+			res.status(500).send({message:"Error: "+ error})
+		});
+}
+
 module.exports={
   	addStock,
   	getAlmacen,
 	getAlmacenXColor,
 	updatePrice,
 	productosxAlmacen,
-	addAlmacen
+	addAlmacen,
+	validarAlmacen
 }
