@@ -63,6 +63,7 @@ function getAlmacenXColor(req,res) {
 function updateStock(req, res){
 	var params = req.body
 	var condicion=params.Id_Alm
+	console.log(condicion)
 	models.Almacen_Color.update(params, {where:{Id_Alm_Color:condicion}})
 	.then(function(){
 		models.Almacen_Color.findOne({where:{Id_Alm_Color:condicion}})
