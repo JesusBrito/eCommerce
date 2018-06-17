@@ -49,9 +49,12 @@ function getSaleClient(req,res) {
 						include:[
 							{model: models.Sale_Detail,
 								include:[
-									{model:models.Product},
-									{model:models.Color}]
-							}
+									{model:models.Almacen_Color,
+										include:[
+											{model:models.Product},
+											{model:models.Color}]
+									}]
+								}
 						]})
 
 
